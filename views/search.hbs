@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2">
-  <a class="navbar-brand" href="#">Admin Panel</a>
+  <a class="navbar-brand" href="/admin/">Admin Panel</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -52,19 +52,19 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each user}}
+                {{user}}
                 <tr>
 
-                    <td>{{this.name}}</td>
-                    <td>{{this.userName}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.userName}}</td>
                     
-                    <td><a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a>
-                        <a href="/admin/delete-product/{{this._id}}" class="btn btn-danger" onclick="return confirm(`Are you want to delete {{this.Name}}`)">Delete</a>
+                    <td><a href="/admin/edit-product/{{user._id}}" class="btn btn-primary">Edit</a>
+                        <a href="/admin/delete-product/{{user._id}}" class="btn btn-danger" onclick="return confirm(`Are you want to delete {{this.Name}}`)">Delete</a>
                     </td>
 
 
                 </tr>
-                {{/each}}
+                
 
             </tbody>
         </table>

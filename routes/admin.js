@@ -43,5 +43,17 @@ router.post('/edit-product/:id',(req,res)=>{
   })
 })
 
-
+router.post('/search',function(req,res){
+  
+  userData=req.body
+  console.log(userData,'serever');
+  adminHelpers.userSearch(userData).then((user)=>{
+    if(user){
+      res.render('search',{user})
+    }else{
+      res.redirect('/admin')
+    }
+  })
+  
+})
 module.exports = router;
