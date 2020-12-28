@@ -16,6 +16,10 @@ app.use(session({
   saveUninitialized: true,
   cookie: {  maxAge: 6000000}
 }))
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+})
 db.connect((err)=>{
   if(err){
     console.log('Data base is not connected'+err);

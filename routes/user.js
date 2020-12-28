@@ -1,11 +1,20 @@
 var express = require('express');
 var router = express.Router();
 const userHelper=require('../helpers/user-helpers')
+const adminHelpers = require('../helpers/admin-helpers');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  
   if(req.session.user){
+    if(req.session.adminTrue){
+      adminHelpers.showAllUsers().then((user)=>{
+    
+        res.render('admin-home',{user})
+      })
+    }else{
     res.redirect('/home')
+    }
 
   }else{
     res.render('login');
@@ -16,7 +25,11 @@ router.get('/', function(req, res, next) {
 
 router.get('/login',function(req,res){
   if(req.session.user){
+    if(req.session.adminTrue){
+      
+    }else{
     res.redirect('/home')
+    }
   }else{
   res.render('login')
   }
@@ -40,14 +53,13 @@ router.post('/login',function(req,res){
   userData=req.body
   
   userHelper.doLogin(userData).then((response)=>{
-    console.log('server',response);
     if(response.noUser){
-      
       res.send({noUser:true})
     }else if(response.status){
       
       req.session.loggedIn=true
       req.session.user=response.user
+      req.session.adminTrue=response.admin
       if(response.admin){
         console.log('admin here');
         res.send({user:true,admin:true})
@@ -71,9 +83,13 @@ router.post('/login',function(req,res){
 router.get('/home',(req,res)=>{
   let user=req.session.user
   if(user){
-  console.log('Home',user);
+    if(req.session.adminTrue){
+      res.render('admin-home')
+    }else{
+      res.render('home',{user})
+    }
 
-  res.render('home',{user})
+
   }
   else{
     res.redirect('/')
