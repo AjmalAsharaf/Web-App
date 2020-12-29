@@ -10,13 +10,17 @@ const userHelper=require('../helpers/user-helpers')
 
 router.get('/', function (req, res) {
 
+  if(req.session.adminTrue){
+
   adminHelpers.showAllUsers().then((user) => {
 
     res.render('admin-home', { user })
   })
 
 
-
+  }else{
+    res.redirect('/')
+  }
 })
 router.get('/logout', function (req, res) {
   req.session.destroy()
@@ -24,11 +28,17 @@ router.get('/logout', function (req, res) {
 })
 router.get('/delete-product/:id', (req, res) => {
   let proId = req.params.id
+  if(req.session.adminTrue){
   adminHelpers.deleteUser(proId).then(() => {
     res.redirect('/admin/')
   })
+}else{
+  res.redirect('/')
+}
 })
 router.get('/edit-product/:id', (req, res) => {
+  if(req.session.adminTrue){
+
   let proId = req.params.id
 
 
@@ -36,6 +46,9 @@ router.get('/edit-product/:id', (req, res) => {
 
     res.render('edit-product', { student })
   })
+}else{
+  res.redirect('/')
+}
 
 
 })
@@ -48,20 +61,36 @@ router.post('/edit-product/:id', (req, res) => {
 })
 
 router.post('/search', function (req, res) {
+  if(req.session.adminTrue){
+
 
   userData = req.body
   console.log(userData, 'serever');
   adminHelpers.userSearch(userData).then((user) => {
-    if (user) {
+    
+      console.log('User found');
       res.render('search', { user })
-    } else {
-      res.redirect('/admin')
-    }
+  
+     
+    
+  }).catch(()=>{
+    console.log('NOt found');
+      
+    res.render('no-user')
   })
+}else{
+  res.redirect('/')
+}
 
 })
 router.get('/add-user',(req,res)=>{
+  if(req.session.adminTrue){
+  
   res.render('add-user')
+  }
+  else{
+    res.redirect('/')
+  }
 })
 router.post('/add-user',(req,res)=>{
   userData=req.body

@@ -44,7 +44,11 @@ module.exports={
         console.log(userData,'mongo recieved');
         return new Promise (async (resolve,reject)=>{
             let user=await db.get().collection('user').findOne({name:userData.name})
-            resolve(user)
+            if(user){
+                resolve(user)
+            }else{
+                reject()
+            }
         })
     }
     

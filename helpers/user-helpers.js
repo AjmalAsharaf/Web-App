@@ -44,7 +44,7 @@ module.exports = {
                     if (user.password == userData.password) {
                         response.status=true
                         response.user=user
-                        response.admin=true
+                         response.admin=true
                         resolve(response)
                     }
 
