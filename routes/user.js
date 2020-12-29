@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
         res.render('admin-home',{user})
       })
     }else{
-    res.redirect('/home')
+    res.render('home')
     }
 
   }else{
@@ -28,7 +28,7 @@ router.get('/login',function(req,res){
     if(req.session.adminTrue){
       
     }else{
-    res.redirect('/home')
+    res.render('home')
     }
   }else{
   res.render('login')
@@ -81,19 +81,20 @@ router.post('/login',function(req,res){
   })
 })
 router.get('/home',(req,res)=>{
-  let user=req.session.user
-  if(user){
+  if(req.session.user){
     if(req.session.adminTrue){
-      res.render('admin-home')
+      adminHelpers.showAllUsers().then((user)=>{
+    
+        res.render('admin-home',{user})
+      })
     }else{
-      res.render('home',{user})
+    res.render('home')
     }
 
-
+  }else{
+    res.render('login');
   }
-  else{
-    res.redirect('/')
-  }
+  
 })
 router.get('/logout',(req,res)=>{
   req.session.destroy()
