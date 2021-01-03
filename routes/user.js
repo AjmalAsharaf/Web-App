@@ -36,7 +36,16 @@ router.get('/login',function(req,res){
 })
 
 router.get('/signup',function(req,res){
+  if(req.session.user){
+    if(req.session.adminTrue){
+      
+    }else{
+    res.render('home')
+    }
+  }else{
   res.render('signup')
+  }
+  
 })
 
 router.post('/signup',function(req,res){
